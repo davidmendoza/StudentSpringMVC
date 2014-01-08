@@ -1,11 +1,16 @@
 package com.springMVC.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.springMVC.model.Grades;
 
 @Entity
 @Table(name="STUDENT")
@@ -24,6 +29,9 @@ public class Student {
 	@Column(name="YEAR_LEVEL")
     private int level;
     
+	@OneToOne(cascade={CascadeType.ALL}) @JoinColumn(name="GRADES_ID")
+	private Grades grade;
+	
 	public Student() {
 		
 	}
@@ -59,6 +67,15 @@ public class Student {
 	public void setLevel(int level) {
 		this.level = level;
 	}
+
+	public Grades getGrade() {
+		return grade;
+	}
+
+	public void setGrade(Grades grade) {
+		this.grade = grade;
+	}
+	
 	
 	
 }
