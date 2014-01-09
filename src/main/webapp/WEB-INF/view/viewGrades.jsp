@@ -25,23 +25,20 @@
 		</tr>
 		
 	<c:forEach items="${students}" var="student">
-		<form:form method="post" action="${contextPath}/student/grades/process/${student.id}" commandName="student">
+		<form:form method="post" action="${contextPath}/student/grades/process" commandName="student">
 		<tr>
 			<form:hidden path="id" value="${student.id}"/>
 			<td>${student.id }</td>
 			<td>${student.firstName }</td>
 			<td>${student.lastName }</td>
 			<td>${student.level }</td>
-			<td>${student.grade }</td>
-			<td>${student.grade.math }</td>
-			<%-- <td><form:input path="math" value="${student.grade.math }" size="5" maxlength="2"/></td>
-			<td><form:input path="english" value="${student.grade.english }" size="5" maxlength="2"/></td>
-			<td><form:input path="science" value="${student.grade.science }" size="5" maxlength="2"/></td> --%>
+			<td><form:input path="grade.math" value="${student.grade.math}" size="5" maxlength="2"/></td>
+		    <td><form:input path="grade.english" value="${student.grade.english }" size="5" maxlength="2"/></td>
+			<td><form:input path="grade.science" value="${student.grade.science }" size="5" maxlength="2"/></td>
 			<td><input type="submit" value="Save"/></td> 
 		</tr>
 		</form:form>
-	</c:forEach>
-		
+	</c:forEach>	
 	</table>
 	<a href="${contextPath}/index">Back to Main Menu</a><br/>
 	<b>${message}</b>

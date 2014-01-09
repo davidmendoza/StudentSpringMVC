@@ -1,9 +1,11 @@
 package com.springMVC.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,17 +37,18 @@ public class AppController {
 	}
 	
 	@RequestMapping(value="/student/process", method=RequestMethod.POST)
-	public String addOrEditStudent(@ModelAttribute("student")Student student, Model model) {
-		if (student.getLevel() == 0) {
-		   	model.addAttribute("message", "Please indicate student level");
-		   	model.addAttribute(student);
+	public String addOrEditStudent(@Valid Student student, BindingResult result, Model model) {
+	    if (result.hasErrors()) {
+	        model.addAttribute("message", "Errors encountered. Please fill up the form again.");
 		} else {
-			if (student.getId() < 1) {
+		    if (student.getId() < 1) {
+				studentService.addStudent(student);
+				model.addAttribute("student", new Student());
 		        model.addAttribute("message", "New Student Added");
 			} else {
+				studentService.updateStudent(student);
 		        model.addAttribute("message", "Updated Student Details");
 			}
-			studentService.addStudent(student);
 		}
 		return "addStudent";
 	}
@@ -78,12 +81,25 @@ public class AppController {
 	@RequestMapping(value="/student/grades")
 	public String viewGrades(Model model) {
 	    model.addAttribute("students", studentService.getStudentList());
+	    model.addAttribute("student", new Student());
 	    return "viewGrades";
 	}
 	
-	@RequestMapping(value="/student/grades/process/${studentId}")
-	public String saveGrades(@ModelAttribute("student")Student student, Model model) {
+	@RequestMapping(value="/student/grades/process", method=RequestMethod.POST)
+	public String saveGrades(@Valid Student student, BindingResult result, Model model) {
+		
+		if (result.hasErrors()){
+			model.addAttribute("students", studentService.getStudentList());
+		    model.addAttribute("student", new Student());
+			model.addAttribute("message","Please enter a valid grade");
+			return "viewGrades";
+		} 
+		
+		studentService.saveGrades(student);
+		model.addAttribute("message", "Saved Grades!");
 		return "index";
+		
 	}
+	
 	
 }

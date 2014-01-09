@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.springMVC.model.Grades;
 
@@ -20,16 +23,22 @@ public class Student {
 	@Column(name="ID", unique=true, nullable=false)
     private int id;
 	
+	@Size(min=2, max=30, message="First name must be between 2-30 characters only")
+	@NotNull
 	@Column(name="FIRST_NAME")
     private String firstName;
 	
+	@Size(min=2, max=30, message="First name must be between 2-30 characters only")
+	@NotNull
 	@Column(name="LAST_NAME")
     private String lastName;
 	
+	@NotNull @Min(value = 1, message="Please choose year level")
 	@Column(name="YEAR_LEVEL")
     private int level;
-    
-	@OneToOne(cascade={CascadeType.ALL}) @JoinColumn(name="GRADES_ID")
+	
+	@OneToOne(cascade={CascadeType.ALL})
+	@JoinColumn(name="GRADES_ID")
 	private Grades grade;
 	
 	public Student() {

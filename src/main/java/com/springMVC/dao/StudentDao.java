@@ -13,4 +13,8 @@ public interface StudentDao {
 	public Student getStudent(int id);
 	
 	public void deleteStudent(int id);
+	
+	public void updateStudent(Student student);
+	
+	public void saveGrades(Student student);
 }

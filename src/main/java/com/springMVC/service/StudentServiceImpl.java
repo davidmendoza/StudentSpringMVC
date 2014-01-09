@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.springMVC.dao.StudentDao;
+import com.springMVC.model.Grades;
 import com.springMVC.model.Student;
 
 @Service
@@ -33,6 +34,16 @@ public class StudentServiceImpl implements StudentService {
 	@Transactional
 	public void deleteStudent(int id) {
 		studentDao.deleteStudent(id);
+	}
+
+	@Transactional
+	public void updateStudent(Student student) {
+		studentDao.updateStudent(student);
+	}
+
+    @Transactional
+	public void saveGrades(Student student) {
+	    studentDao.saveGrades(student);
 	}
 	
 	
