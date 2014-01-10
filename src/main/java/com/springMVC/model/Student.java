@@ -22,7 +22,7 @@ public class Student {
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID", unique=true, nullable=false)
     private int id;
-	
+	//validations should be in DTO 
 	@Size(min=2, max=30, message="First name must be between 2-30 characters only")
 	@NotNull
 	@Column(name="FIRST_NAME")

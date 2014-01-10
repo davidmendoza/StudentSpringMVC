@@ -12,7 +12,7 @@ public interface StudentService {
 	
 	public Student getStudent(int id);
 	
-	public void deleteStudent(int id);
+	public boolean deleteStudent(int id);
 	
 	public void updateStudent(Student student);
 	

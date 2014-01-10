@@ -32,7 +32,7 @@ public class AppController {
 	
 	@RequestMapping(value="/student/add")
 	public String viewAddPage(Model model) {
-		model.addAttribute("student",new Student());
+		model.addAttribute("student", new Student());
 		return "addStudent";
 	}
 	
@@ -63,7 +63,7 @@ public class AppController {
 	public String viewEditPage(@PathVariable("studentId")int id, Model model) {
 		Student student = studentService.getStudent(id);
 		if (student != null) {
-		    model.addAttribute("student",student);
+		    model.addAttribute("student", student);
 		} else {
 			model.addAttribute("student", new Student());
 		}
@@ -72,9 +72,14 @@ public class AppController {
 	
 	@RequestMapping(value="/student/delete/{studentId}")
 	public String deleteStudent(@PathVariable("studentId")int id, Model model) {
-		studentService.deleteStudent(id);
-		model.addAttribute("message", "Deleted Student");
-		model.addAttribute("students", studentService.getStudentList());
+		Boolean isStudentDeleted = studentService.deleteStudent(id);
+		if (isStudentDeleted == true) {
+		    model.addAttribute("message", "Deleted Student");
+		    model.addAttribute("students", studentService.getStudentList());
+		} else {
+		    model.addAttribute("message", "Student does not exist");
+		    model.addAttribute("students", studentService.getStudentList());
+		}
 		return "viewStudents";
 	}
 	
@@ -86,7 +91,7 @@ public class AppController {
 	}
 	
 	@RequestMapping(value="/student/grades/process", method=RequestMethod.POST)
-	public String saveGrades(@Valid Student student, BindingResult result, Model model) {
+	public String saveGrades(Student student, BindingResult result, Model model) {
 		
 		if (result.hasErrors()){
 			model.addAttribute("students", studentService.getStudentList());
@@ -98,7 +103,7 @@ public class AppController {
 		studentService.saveGrades(student);
 		model.addAttribute("message", "Saved Grades!");
 		return "index";
-		
+		//use ModelAndView object as return type
 	}
 	
 	
